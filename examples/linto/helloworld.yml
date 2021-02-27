@@ -1,0 +1,24 @@
+version: "3.7"
+
+services:
+  test:
+    image: tutum/hello-world
+    deploy:
+      mode: replicated
+      replicas: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.services.test.loadbalancer.server.port=80"
+        - "traefik.http.routers.test.entrypoints=http"
+        - "traefik.http.routers.test.rule=Host(`jitsi.linto.ai`)"
+        - "traefik.http.routers.testsecure.entrypoints=https"
+        - "traefik.http.routers.testsecure.tls=true"
+        - "traefik.http.routers.testsecure.rule=Host(`jitsi.linto.ai`)"
+        - "traefik.http.routers.test.middlewares=ssl-redirect@file"
+        - "traefik.http.routers.testsecure.tls.certresolver=mytlschallenge"
+    networks:
+      - linto-net
+
+networks:
+  linto-net:
+    external: true
