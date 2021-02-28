@@ -1,0 +1,10 @@
+/classes
+*.swp
+dist
+*.class
+*.jar
+
+.idea/*
+jigasi.iml
+
+target
